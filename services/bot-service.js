@@ -30,20 +30,20 @@ function BotService() {
 
     this.toggle = (action) => {
         if (ACTIONS[action]) {
-            let channel = this.getChannel(ACTIONS[action]);
-            this.gpiop.read(channel)
+            let pin = this.getPin(ACTIONS[action]);
+            this.gpiop.read(pin)
                 .then((value => {
-                    console.log('Value for channel: ', channel, value)
+                    console.log('Value for channel: ', pin, value)
                 }))
                 .catch((err) => {
-                    console.log('Error: ', err.toString())
+                    console.log('Error reading pin: ', pin, err.toString())
                 })
         } else {
             console.log('Error: invalid bot action provided: ', action);
         }
     };
 
-    this.getChannel = (action) => {
+    this.getPin = (action) => {
         return this.outputs.findIndex(option => {
             return option[0] === action;
         })
