@@ -1,0 +1,8 @@
+<h1>{{title}}</h1>
+<div>
+    {{#each actions}}
+        <button id="{{this.[1]}}" name="{{this.[1]}}" onclick="runAction('{{this.[0]}}')">{{this.[1]}}</button>
+    {{/each}}
+</div>
+
+
