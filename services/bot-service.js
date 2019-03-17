@@ -44,9 +44,10 @@ function BotService() {
     };
 
     this.getPin = (action) => {
-        return this.outputs.findIndex(option => {
+        const output = this.outputs.find(option => {
             return option[0] === action;
-        })
+        });
+        return output ? output[1] : null;
     };
 }
 
