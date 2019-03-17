@@ -18,6 +18,7 @@ function BotService() {
         this.outputs.forEach(output => {
             this.gpiop.setup(output[1], GPIO.DIR_OUT)
                 .then(() => {
+                    console.log('Setup pin: ', output[1]);
                     return this.gpiop.write(output[1], true)
                 })
                 .catch((err) => {
