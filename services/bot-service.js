@@ -18,7 +18,7 @@ function BotService() {
         this.outputs.forEach(output => {
             this.gpiop.setup(output[1], GPIO.DIR_OUT)
                 .then(() => {
-                    return gpiop.write(output[1], true)
+                    return this.gpiop.write(output[1], true)
                 })
                 .catch((err) => {
                     console.log('Error: ', err.toString())
