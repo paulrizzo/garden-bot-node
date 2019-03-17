@@ -33,7 +33,8 @@ function BotService() {
             let pin = this.getPin(ACTIONS[action]);
             this.gpiop.read(pin)
                 .then((value => {
-                    console.log('Value for channel: ', pin, value)
+                    console.log('Updating value for channel: ', pin, ' from: ', value, ' to: ', !value);
+                    return this.gpiop.write(pin, !value);
                 }))
                 .catch((err) => {
                     console.log('Error reading pin: ', pin, err.toString())
