@@ -1,8 +1,16 @@
-<h1>{{title}}</h1>
-<div>
+<div class="container">
+    <h2>System Control</h2>
     {{#each actions}}
-        <button id="{{this.[1]}}" name="{{this.[1]}}" onclick="runAction('{{this.[0]}}')">{{this.[1]}}</button>
+        <div class="row p-1">
+            <div class="col-2">
+                <label class="font-weight-bold" for="{{this.[0]}}">{{this.[1]}}</label>
+            </div>
+            <div class="col-10">
+                <input type="checkbox" id="{{this.[0]}}" onclick="runAction('{{this.[0]}}')" data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="success" data-offstyle="danger">
+            </div>
+        </div>
     {{/each}}
 </div>
+
 
 
