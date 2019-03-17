@@ -1,9 +1,9 @@
 var ACTIONS = require('./bot-actions');
-var gpio = require('rpi-gpio');
-var gpiop = gpio.promise;
+var GPIO = require('rpi-gpio');
 
 function BotService() {
 
+    this.gpiop = GPIO.promise;
     this.outputs = [
         [ACTIONS.LIGHT, 12],      // outlet 1
         [ACTIONS.HEATER_MAT, 16], // outlet 2
@@ -14,12 +14,9 @@ function BotService() {
     ];
 
     this.init = () => {
-        // set RPI mode which matches board pin numbers
-        gpio.setMode(gpio.MODE_RPI);
-
         // initialize all outputs and set to off by default
         this.outputs.forEach(output => {
-            gpiop.setup(output[1], gpio.DIR_OUT)
+            this.gpiop.setup(output[1], GPIO.DIR_OUT)
                 .then(() => {
                     return gpiop.write(output[1], true)
                 })
@@ -33,7 +30,7 @@ function BotService() {
     this.toggle = (action) => {
         if (ACTIONS[action]) {
             let channel = this.getChannel(ACTIONS[action]);
-            gpiop.read(channel)
+            this.gpiop.read(channel)
                 .then((value => {
                     console.log('Value for channel: ', channel, value)
                 }))
