@@ -14,8 +14,8 @@ function BotService() {
     ];
 
     this.init = () => {
-        // set BCM mode which matches board pin numbers
-        gpio.setMode(gpio.MODE_BCM);
+        // set RPI mode which matches board pin numbers
+        gpio.setMode(gpio.MODE_RPI);
 
         // initialize all outputs and set to off by default
         this.outputs.forEach(output => {
