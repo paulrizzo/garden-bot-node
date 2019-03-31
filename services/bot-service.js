@@ -44,6 +44,13 @@ function BotService() {
         }
     };
 
+    this.getActionState = (action) => {
+        if (ACTIONS[action]) {
+            let pin = this.getPin(ACTIONS[action]);
+            return this.gpiop.read(pin);
+        }
+    };
+
     this.getPin = (action) => {
         const output = this.outputs.find(option => {
             return option[0] === action;

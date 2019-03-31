@@ -6,11 +6,13 @@
                 <label class="font-weight-bold" for="{{this.[0]}}">{{this.[1]}}</label>
             </div>
             <div class="col-10">
-                <input type="checkbox" id="{{this.[0]}}" onchange="runAction('{{this.[0]}}')" data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="success" data-offstyle="danger">
+                <input type="checkbox" class="control" id="{{this.[0]}}" onclick="runAction('{{this.[0]}}')" data-toggle="toggle" data-on="On" data-off="Off" data-onstyle="success" data-offstyle="danger">
             </div>
         </div>
     {{/each}}
 </div>
+
+<script src="/javascripts/control.js"></script>
 
 
 

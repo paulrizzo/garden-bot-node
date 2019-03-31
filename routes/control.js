@@ -12,9 +12,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/action', function(req, res, next) {
-  console.log('Action ' + req.body.action);
   actionService.toggle(req.body.action);
   res.send('success');
+});
+
+router.get('/action/:action', function(req, res, next) {
+  actionService.getActionState(req.params.action)
+      .then((res) => {
+        return res;
+      });
 });
 
 module.exports = router;
