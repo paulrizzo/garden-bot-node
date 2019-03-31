@@ -19,6 +19,7 @@ router.post('/action', function(req, res, next) {
 router.get('/action/:action', function(req, res, next) {
   actionService.getActionState(req.params.action)
       .then((data) => {
+        console.log('Response ' + data);
         return res.send(data);
       });
 });

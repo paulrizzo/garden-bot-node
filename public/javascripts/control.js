@@ -14,6 +14,7 @@ function loadAction(action) {
         dataType: 'JSON'
     }).done(function(response) {
         var checked = response === 1;
+        console.log('Setting action ' + action + ' to ' + checked);
         setAction(action, checked);
     });
 }
