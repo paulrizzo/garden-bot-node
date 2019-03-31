@@ -13,7 +13,7 @@ function loadAction(action) {
         url: '/control/action/' + action,
         dataType: 'JSON'
     }).done(function(response) {
-        var checked = response === 0;
+        var checked = response === 1;
         setAction(action, checked);
     });
 }
