@@ -21,8 +21,9 @@ function loadAction(action) {
 
 function setAction(action, checked) {
     const input = document.getElementById(action);
+    const toggle = input.data('bs.toggle');
     if (checked) {
-        input.bootstrapToggle('toggle');
+        toggle.on(true);
     }
 }
 
