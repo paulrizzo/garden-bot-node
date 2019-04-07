@@ -21,7 +21,9 @@ function loadAction(action) {
 
 function setAction(action, checked) {
     const input = document.getElementById(action);
-    input.checked = checked;
+    if (checked) {
+        input.bootstrapToggle('toggle');
+    }
 }
 
 $(document).ready(function() {
