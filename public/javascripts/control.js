@@ -20,8 +20,7 @@ function loadAction(action) {
 }
 
 function setAction(action, checked) {
-    const input = document.getElementById(action);
-    const toggle = input.data('bs.toggle');
+    const toggle = $(`#${action}`).data('bs.toggle');
     if (checked) {
         toggle.on(true);
     }
