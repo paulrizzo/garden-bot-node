@@ -16,12 +16,10 @@ router.post('/action', function(req, res, next) {
   res.send('success');
 });
 
-router.get('/action/:action', function(req, res, next) {
-  actionService.getActionState(req.params.action)
-      .then((data) => {
-        console.log('Response ' + data);
-        return res.send(data);
-      });
+router.get('/action/:action', async function(req, res, next) {
+  let data = await actionService.getActionState(req.params.action);
+  console.log('action ' + req.params.action + ' result ' + data);
+  res.send(data);
 });
 
 module.exports = router;
