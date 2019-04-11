@@ -64,3 +64,4 @@ garden-bot-node.iml
 .DS_Store
 .idea/
 public/images/*.jpg
+package-lock.json
