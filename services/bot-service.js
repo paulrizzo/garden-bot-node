@@ -40,15 +40,23 @@ function BotService() {
         this.outputs.forEach(output => {
             let jobName = output[0];
             let actionPin = output[1];
-            if (jobName !== null) {
-                console.log('Registering job:', jobName);
-                agenda.define(jobName, {}, (job) => {
-                    const {state} = job.attrs.data;
-                    this.setPin(actionPin, state);
-                    // TODO: capture image
-                });
-            }
+            this.registerJob(jobName, actionPin);
         })
+    };
+
+    this.registerJob = (jobName, actionPin) => {
+        if (jobName !== null) {
+            console.log('Registering job:', jobName);
+            agenda.define(jobName + ' on', {}, () => {
+                this.setPin(actionPin, '0');
+                // TODO: capture image
+            });
+
+            agenda.define(jobName + ' off', {}, () => {
+                this.setPin(actionPin, '1');
+                // TODO: capture image
+            });
+        }
     };
 
     this.startScheduler = () => {
