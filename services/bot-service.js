@@ -1,8 +1,13 @@
-var ACTIONS = require('./bot-actions');
-var GPIO = require('rpi-gpio');
+let ACTIONS = require('./bot-actions');
+let GPIO = require('rpi-gpio');
+let Agenda = require('agenda');
+
+const mongoConnectionString = 'mongodb://127.0.0.1/agenda';
+const agenda = new Agenda({db: {address: mongoConnectionString, collection: 'agendaJobs'}});
 
 function BotService() {
 
+    this.agenda = agenda;
     this.gpiop = GPIO.promise;
     this.outputs = [
         [ACTIONS.LIGHT, 12],      // outlet 1
@@ -14,6 +19,10 @@ function BotService() {
     ];
 
     this.init = () => {
+        // register jobs
+        this.registerJobs();
+        this.startScheduler();
+
         // initialize all outputs and set to off by default
         this.outputs.forEach(output => {
             this.gpiop.setup(output[1], GPIO.DIR_OUT)
@@ -25,7 +34,29 @@ function BotService() {
                     console.log('Error: ', err.toString())
                 });
         });
+    };
 
+    this.registerJobs = () => {
+        this.outputs.forEach(output => {
+            let jobName = output[0];
+            let actionPin = output[1];
+            if (jobName !== null) {
+                console.log('Registering job:', jobName);
+                agenda.define(jobName, {}, (job) => {
+                    const {state} = job.attrs.data;
+                    this.setPin(actionPin, state);
+                    // TODO: capture image
+                });
+            }
+        })
+    };
+
+    this.startScheduler = () => {
+        agenda.start().then(() => {
+            console.log('Agenda started successfully!');
+        }).catch(() => {
+            console.log('Agenda failed to start successfully!');
+        });
     };
 
     this.toggle = (action) => {
@@ -33,8 +64,7 @@ function BotService() {
             let pin = this.getPin(ACTIONS[action]);
             this.gpiop.read(pin)
                 .then((value => {
-                    console.log('Updating value for channel: ', pin, ' from: ', value, ' to: ', !value);
-                    return this.gpiop.write(pin, !value);
+                    return this.setPin(pin, !value);
                 }))
                 .catch((err) => {
                     console.log('Error reading pin: ', pin, err.toString())
@@ -56,6 +86,11 @@ function BotService() {
             return option[0] === action;
         });
         return output ? output[1] : null;
+    };
+
+    this.setPin = (pin, value) => {
+        console.log('Updating value for channel: ', pin, ' from: ', value, ' to: ', value);
+        return this.gpiop.write(pin, value);
     };
 }
 

@@ -4,13 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var favicon = require('serve-favicon');
+var Agenda = require('agenda');
+var Agendash = require('agendash');
 
 var indexRouter = require('./routes/index');
-var scheduleRouter = require('./routes/schedule');
 var controlRouter = require('./routes/control');
 var cameraRouter = require('./routes/camera');
 
 var app = express();
+
+// setup agenda
+const mongoConnectionString = 'mongodb://127.0.0.1/agenda';
+const agenda = new Agenda({db: {address: mongoConnectionString, collection: 'agendaJobs'}});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 app.use('/', indexRouter);
-app.use('/schedule', scheduleRouter);
+app.use('/schedule', Agendash(agenda, {
+  title: 'GardenBot Schedule'
+}));
 app.use('/control', controlRouter);
 app.use('/camera', cameraRouter);
 
@@ -45,3 +52,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+module.exports.agenda = agenda;
