@@ -9,7 +9,6 @@ var Agendash = require('agendash');
 
 var indexRouter = require('./routes/index');
 var controlRouter = require('./routes/control');
-var cameraRouter = require('./routes/camera');
 
 var app = express();
 
@@ -33,7 +32,6 @@ app.use('/schedule', Agendash(agenda, {
   title: 'GardenBot Schedule'
 }));
 app.use('/control', controlRouter);
-app.use('/camera', cameraRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
