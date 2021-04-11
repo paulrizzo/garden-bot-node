@@ -13,8 +13,8 @@ function BotService() {
         [ACTIONS.LIGHT, 12],      // outlet 1
         [ACTIONS.HEATER_MAT, 16], // outlet 2
         [ACTIONS.FILL_PUMP, 18],  // outlet 3
-        [ACTIONS.FAN, 22],        // outlet 4
-        [null, 32],               // outlet 5
+        [ACTIONS.LOWER_FAN, 22],  // outlet 4
+        [ACTIONS.UPPER_FAN, 32],  // outlet 5
         [null, 36]                // outlet 6
     ];
 
